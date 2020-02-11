@@ -39,6 +39,12 @@ class ProxyManager(object):
         fetch proxy into db by ProxyGetter
         :return:
         """
+        self.db.changeTable(self.useful_proxy_queue)
+        useful_proxy_queue_number = self.db.getNumber()
+        if useful_proxy_queue_number >= 20:
+            self.log.info(f"useful proxy number is enough: {useful_proxy_queue_number}")
+            return
+
         self.db.changeTable(self.raw_proxy_queue)
         proxy_set = set()
         self.log.info("ProxyFetch : start")

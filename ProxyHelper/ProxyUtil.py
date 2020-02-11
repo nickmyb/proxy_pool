@@ -12,9 +12,15 @@
 """
 __author__ = 'JHao'
 
+from Util.LogHandler import LogHandler
 from Util import validUsefulProxy
+from Config.ConfigGetter import config
 
 from datetime import datetime
+import time
+
+
+log = LogHandler('proxy_manager')
 
 
 def checkProxyUseful(proxy_obj):
@@ -23,8 +29,12 @@ def checkProxyUseful(proxy_obj):
     :param proxy_obj: Proxy object
     :return: Proxy object, status
     """
+    if time.time() - proxy_obj.created_time < config.expired_interval[proxy_obj.source]:
+        is_expired = False
+    else:
+        is_expired = True
 
-    if validUsefulProxy(proxy_obj.proxy):
+    if validUsefulProxy(proxy_obj.proxy) and is_expired is False:
         # 检测通过 更新proxy属性
         proxy_obj.check_count += 1
         proxy_obj.last_status = 1

@@ -12,7 +12,8 @@
 """
 __author__ = 'JHao'
 
-from getFreeProxy import GetFreeProxy
+# TODO: 改了这里不知道对docker部署有没有影响
+from .getFreeProxy import GetFreeProxy
 from Util.utilFunction import verifyProxyFormat
 
 

@@ -13,12 +13,13 @@
 __author__ = 'JHao'
 
 import json
+import time
 
 
 class Proxy(object):
 
     def __init__(self, proxy, fail_count=0, region="", proxy_type="",
-                 source="", check_count=0, last_status="", last_time=""):
+                 source="", check_count=0, last_status="", last_time="", created_time=""):
         self._proxy = proxy
         self._fail_count = fail_count
         self._region = region
@@ -27,6 +28,7 @@ class Proxy(object):
         self._check_count = check_count
         self._last_status = last_status
         self._last_time = last_time
+        self._created_time = created_time if created_time else time.time()
 
     @classmethod
     def newProxyFromJson(cls, proxy_json):
@@ -43,7 +45,8 @@ class Proxy(object):
                    source=proxy_dict.get("source", ""),
                    check_count=proxy_dict.get("check_count", 0),
                    last_status=proxy_dict.get("last_status", ""),
-                   last_time=proxy_dict.get("last_time", "")
+                   last_time=proxy_dict.get("last_time", ""),
+                   created_time=proxy_dict.get("created_time", ""),
                    )
 
     @property
@@ -87,6 +90,15 @@ class Proxy(object):
         return self._last_time
 
     @property
+    def created_time(self):
+        """ 代理创建时间 """
+        return self._created_time
+
+    @created_time.setter
+    def created_time(self, value):
+        self._created_time = value
+
+    @property
     def info_dict(self):
         """ 属性字典 """
         return {"proxy": self._proxy,
@@ -96,7 +108,8 @@ class Proxy(object):
                 "source": self._source,
                 "check_count": self.check_count,
                 "last_status": self.last_status,
-                "last_time": self.last_time}
+                "last_time": self.last_time,
+                "created_time": self.created_time}
 
     @property
     def info_json(self):

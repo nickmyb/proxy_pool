@@ -57,6 +57,10 @@ class ConfigGetter(object):
     def host_port(self):
         return SERVER_API.get("PORT", 5010)
 
+    @LazyProperty
+    def expired_interval(self):
+        return EXPIRED_INTERVAL
+
 
 config = ConfigGetter()
 

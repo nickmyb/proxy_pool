@@ -11,6 +11,7 @@
 -------------------------------------------------
 """
 
+# import environs
 import sys
 from os import getenv
 from logging import getLogger
@@ -33,10 +34,10 @@ HEADER = """
 
 PY3 = sys.version_info >= (3,)
 
-DB_TYPE = getenv('db_type', 'SSDB').upper()
+DB_TYPE = getenv('db_type', 'REDIS').upper()
 DB_HOST = getenv('db_host', '127.0.0.1')
-DB_PORT = getenv('db_port', 8888)
-DB_PASSWORD = getenv('db_password', '')
+DB_PORT = getenv('db_port', 6379)
+DB_PASSWORD = getenv('db_password', 'auth')
 
 
 """ 数据库配置 """
@@ -53,21 +54,27 @@ DATABASES = {
 # register the proxy getter function
 
 PROXY_GETTER = [
-    "freeProxy01",
-    "freeProxy02",
-    "freeProxy03",
-    "freeProxy04",
-    "freeProxy05",
-    "freeProxy06",
-    "freeProxy07",
-    "freeProxy08",
-    "freeProxy09",
+    'feiyi180',
+
+    # "freeProxy01",
+    # "freeProxy02",
+    # "freeProxy03",
+    # "freeProxy04",
+    # "freeProxy05",
+    # "freeProxy06",
+    # "freeProxy07",
+    # "freeProxy08",
+    # "freeProxy09",
 ]
 
 """ API config http://127.0.0.1:5010 """
 SERVER_API = {
     "HOST": "0.0.0.0",  # The ip specified which starting the web API
     "PORT": 5010  # port number to which the server listens to
+}
+
+EXPIRED_INTERVAL = {
+    'feiyi180': 150,
 }
 
 
@@ -88,4 +95,5 @@ def checkConfig():
         raise ConfigError("ProxyGetter: %s does not exists" % "/".join(illegal_getter))
 
 
+# TODO: 不能在这里添加一些额外配置,会导致checkConfig报错
 checkConfig()

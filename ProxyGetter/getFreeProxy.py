@@ -21,6 +21,9 @@ sys.path.append('..')
 from Util.WebRequest import WebRequest
 from Util.utilFunction import getHtmlTree
 
+from env import DOT_ENV
+FEIYI_API = DOT_ENV.env.str('FEIYI_API')
+
 # for debug to disable insecureWarning
 requests.packages.urllib3.disable_warnings()
 
@@ -29,6 +32,15 @@ class GetFreeProxy(object):
     """
     proxy getter
     """
+    @staticmethod
+    def feiyi180():
+        url = FEIYI_API
+        response = requests.get(url)
+        response_json = response.json()
+        domain = response_json['domain']
+        port_list = response_json['port']
+        for port in port_list:
+            yield '{domain}:{port}'.format(domain=domain, port=port)
 
     @staticmethod
     def freeProxy01():
